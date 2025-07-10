@@ -36,7 +36,7 @@ defmodule ConnectFour.Runtime.Server do
     Phoenix.PubSub.broadcast(
       ConnectFour.PubSub,
       "game:#{updated_game.game_id}",
-      {:join_game, updated_game}
+      {:make_move, updated_game}
     )
 
     {:reply, updated_game, updated_game}
