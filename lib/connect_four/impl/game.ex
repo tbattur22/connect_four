@@ -10,20 +10,22 @@ defmodule ConnectFour.Impl.Game do
     board: list(list(any()))
   }
 
+  @board [
+    [nil,nil,nil,nil,nil,nil],#1st column (left most is bottom)
+    [nil,nil,nil,nil,nil,nil],#2nd column
+    [nil,nil,nil,nil,nil,nil],
+    [nil,nil,nil,nil,nil,nil],
+    [nil,nil,nil,nil,nil,nil],
+    [nil,nil,nil,nil,nil,nil],
+    [nil,nil,nil,nil,nil,nil],
+  ]
+
   defstruct(
     game_id: nil,
     game_state: nil,
     current_player: nil,
     players: %{red: nil, yellow: nil},
-    board: [
-      [nil,nil,nil,nil,nil,nil],#1st column (left most is bottom)
-      [nil,nil,nil,nil,nil,nil],#2nd column
-      [nil,nil,nil,nil,nil,nil],
-      [nil,nil,nil,nil,nil,nil],
-      [nil,nil,nil,nil,nil,nil],
-      [nil,nil,nil,nil,nil,nil],
-      [nil,nil,nil,nil,nil,nil],
-    ]
+    board: @board
   )
 
   ################################
@@ -50,6 +52,13 @@ defmodule ConnectFour.Impl.Game do
 
   def new_game(%__MODULE__{game_id: nil}, _uid), do: raise "Invalid game passed (no game_id)"
   def new_game(game, uid), do: raise "Invalid game or uid. game: #{inspect(game)} and uid: #{inspect(uid)}"
+
+  ###############################################
+
+  @spec play_again(t()) :: t()
+  def play_again(game = %__MODULE__{}) do
+      %{ game | game_state: :playing, current_player: get_other_player(game.current_player), board: @board }
+  end
 
   ###############################################
 
