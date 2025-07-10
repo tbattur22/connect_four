@@ -7,6 +7,7 @@ defmodule ConnectFour.Runtime.Application do
   def start(_type, _args) do
 
     supervisor_spec = [
+      {Phoenix.PubSub, name: ConnectFour.PubSub},
       { DynamicSupervisor, strategy: :one_for_one, name: @super_name },
       {Registry, [keys: :unique, name: @registry]},
     ]

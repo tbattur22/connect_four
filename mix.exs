@@ -22,6 +22,7 @@ defmodule ConnectFour.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:phoenix_pubsub, "~> 2.1"},
       { :uuid, "~> 1.1" },
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       # {:dep_from_hexpm, "~> 0.3.0"},

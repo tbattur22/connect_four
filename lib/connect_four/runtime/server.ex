@@ -21,11 +21,24 @@ defmodule ConnectFour.Runtime.Server do
   def handle_call({ :join_game, uid}, _from, game) do
     game = Game.new_game(game, uid)
 
+    Phoenix.PubSub.broadcast(
+      ConnectFour.PubSub,
+      "game:#{game.game_id}",
+      {:join_game, game}
+    )
+
     {:reply, game, game}
   end
 
   def handle_call({ :make_move, uid, col_index}, _from, game) do
     updated_game = Game.make_move(game, uid, col_index)
+
+    Phoenix.PubSub.broadcast(
+      ConnectFour.PubSub,
+      "game:#{updated_game.game_id}",
+      {:join_game, updated_game}
+    )
+
     {:reply, updated_game, updated_game}
   end
 
