@@ -51,4 +51,8 @@ defmodule ConnectFour.Runtime.Server do
 
     {:reply, new_game, new_game}
   end
+
+  def handle_call({ :game_id }, _from, game) do
+    {:reply,  game.game_id, game}
+  end
 end

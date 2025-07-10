@@ -22,4 +22,8 @@ defmodule ConnectFour do
   def play_again(game) do
     GenServer.call(game, {:play_again})
   end
+
+  def game_id(game) do
+    GenServer.call(game, {:game_id})
+  end
 end
