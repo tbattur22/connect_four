@@ -18,4 +18,8 @@ defmodule ConnectFour do
   def make_move(game, uid, col_index) do
     GenServer.call(game, { :make_move, uid, col_index})
   end
+
+  def play_again(game) do
+    GenServer.call(game, {:play_again})
+  end
 end
