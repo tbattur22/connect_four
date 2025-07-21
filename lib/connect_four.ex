@@ -15,6 +15,11 @@ defmodule ConnectFour do
         pid2
     end
   end
+
+  def join_game(game, uid) do
+    GenServer.call(game, { :join_game, uid})
+  end
+
   def make_move(game, uid, col_index) do
     GenServer.call(game, { :make_move, uid, col_index})
   end
