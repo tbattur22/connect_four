@@ -15,7 +15,7 @@ defmodule ConnectFour.Runtime.Application do
     Supervisor.start_link(supervisor_spec, strategy: :one_for_one)
   end
 
-  def start_game(uid) do
-    DynamicSupervisor.start_child(@super_name, { ConnectFour.Runtime.Server, uid})
+  def start_game(game_id, uid1, uid2) do
+    DynamicSupervisor.start_child(@super_name, { ConnectFour.Runtime.Server, {game_id, uid1, uid2}})
   end
 end

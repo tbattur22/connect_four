@@ -30,16 +30,16 @@ defmodule ConnectFour.Impl.Game do
 
   ################################
 
-  @spec new_game(uid :: integer()) :: t()
-  def new_game(uid) when is_integer(uid) do
+  @spec new_game(game_id :: String.t(), uid :: integer()) :: t()
+  def new_game(game_id, uid) when is_binary(game_id) and is_integer(uid) do
     %ConnectFour.Impl.Game{
-      game_id: UUID.uuid1(),
+      game_id: game_id,
       current_player: :red,
       players: %{ red: uid, yellow: nil},
     }
   end
 
-  def new_game(uid), do: raise "Invalid user id passed #{uid}"
+  def new_game(game_id, uid) when is_binary(game_id) , do: raise "Invalid user id passed #{uid}"
 
   @spec new_game(t(), integer()) :: t()
   def new_game(%__MODULE__{game_id: game_id, players: %{ red: red, yellow: nil}} = game, uid) when game_id != nil and is_integer(uid) do
@@ -52,6 +52,8 @@ defmodule ConnectFour.Impl.Game do
 
   def new_game(%__MODULE__{game_id: nil}, _uid), do: raise "Invalid game passed (no game_id)"
   def new_game(game, uid), do: raise "Invalid game or uid. game: #{inspect(game)} and uid: #{inspect(uid)}"
+
+  # def new_game(game_id, uid) when is_integer(uid) , do: raise "Invalid game id passed #{inspect(game_id)}"
 
   ###############################################
 

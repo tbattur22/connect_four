@@ -7,26 +7,20 @@ defmodule ConnectFour.Runtime.Server do
 
   # client process
 
-  def start_link(uid) do
-    name = "ConnectFourServer_" <> Integer.to_string(uid)
-    GenServer.start_link(__MODULE__, uid, name: {:via, Registry, {@registry, name}})
+  def start_link({game_id, uid1, uid2}) do
+    name = "ConnectFourServer_" <> game_id
+    GenServer.start_link(__MODULE__, {game_id, uid1, uid2}, name: {:via, Registry, {@registry, name}})
   end
 
   # server process
 
-  def init(uid) do
-    {:ok, Game.new_game(uid) }
+  def init({game_id, uid1, uid2}) do
+    game = Game.new_game(game_id, uid1)
+
+    {:ok,  Game.new_game(game, uid2)}
   end
 
-  def handle_call({ :join_game, uid}, _from, game) do
-    game = Game.new_game(game, uid)
-
-    Phoenix.PubSub.broadcast(
-      ConnectFour.PubSub,
-      "game:#{game.game_id}",
-      {:join_game, game}
-    )
-
+  def handle_call({ :game_state }, _from, game) do
     {:reply, game, game}
   end
 
