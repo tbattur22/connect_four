@@ -183,4 +183,18 @@ defmodule ConnectFourTest do
 
     assert gameReturned.game_state == { :win, :yellow}
   end
+
+  test "correct game server pid returned" do
+    p1 = 22
+    p2 = 33
+    game_id = UUID.uuid1()
+    {:ok, pid} = ConnectFour.Runtime.Server.start_link({game_id, p1, p2})
+    {:ok, game_state} = ConnectFour.game_state(game_id)
+    assert game_state.game_state == :playing
+    assert game_state.players == %{ red: p1, yellow: p2}
+    assert game_id = ConnectFour.game_id(pid)
+
+    {:ok, game_pid} = ConnectFour.game_pid(game_id)
+    assert game_pid == pid
+  end
 end

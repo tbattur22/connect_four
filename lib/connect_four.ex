@@ -1,5 +1,6 @@
 defmodule ConnectFour do
   # alias ConnectFour.Impl.Game
+  require Logger
   alias ConnectFour.Runtime.Server
 
   @opaque game :: Server.t
@@ -24,6 +25,7 @@ defmodule ConnectFour do
     case Registry.lookup(@registry, "ConnectFourServer_" <> game_id) do
       [] ->
         registeredServerName = "ConnectFourServer_" <> game_id
+        Logger.warning("No process registered with name #{registeredServerName}")
         {:error, "No process registered with name #{registeredServerName} "}
       [{pid2, _}] ->
         {:ok, GenServer.call(pid2, { :game_state })}
@@ -41,4 +43,15 @@ defmodule ConnectFour do
   def game_id(game) do
     GenServer.call(game, {:game_id})
   end
+
+  def game_pid(game_id) when is_binary(game_id) do
+    case Registry.lookup(@registry, "ConnectFourServer_" <> game_id) do
+      [] ->
+        Logger.warning("No server process found for game id #{game_id}")
+        {:error, "No server process found for game id #{game_id}"}
+      [{pid, _}] ->
+        {:ok, pid}
+    end
+  end
+  def game_pid(game_id), do: {:error, "game_id must be of type String(binary) but got #{inspect(game_id)}"}
 end
