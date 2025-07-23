@@ -81,7 +81,7 @@ defmodule ConnectFour.Impl.Game do
       nil ->
         col
       index ->
-        List.replace_at(col, index, uid)
+        List.replace_at(col, index, get_player_by_uid(players, uid))
     end
 
     updatedBoard = List.replace_at(board, col_index, updatedCol)
@@ -92,7 +92,7 @@ defmodule ConnectFour.Impl.Game do
   ######################################################
 
   defp check_if_win_or_drawn(board, players, uid) do
-    case Rules.check_win(board, uid) do
+    case Rules.check_win(players, board, uid) do
       true -> {:win, get_player_by_uid(players, uid)}
       false ->
         if Rules.check_draw?(board) do
@@ -103,7 +103,7 @@ defmodule ConnectFour.Impl.Game do
     end
   end
 
-  defp get_player_by_uid(players, uid) do
+  def get_player_by_uid(players, uid) do
     Enum.find(players, fn {_k, v} -> v == uid end)
     |> elem(0)
   end

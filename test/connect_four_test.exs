@@ -90,7 +90,7 @@ defmodule ConnectFourTest do
 
     assert gameReturned.game_state == :playing
     assert gameReturned.current_player == :yellow
-    assert Enum.at(gameReturned.board, 3) == [22, 33, 22, 33, 22, 33]
+    assert Enum.at(gameReturned.board, 3) == [:red, :yellow, :red, :yellow, :red, :yellow]
   end
 
   test "red player won horizontally" do
