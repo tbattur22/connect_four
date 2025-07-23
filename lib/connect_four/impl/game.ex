@@ -103,10 +103,16 @@ defmodule ConnectFour.Impl.Game do
     end
   end
 
-  def get_player_by_uid(players, uid) do
+  def get_player_by_uid(%{} = players, uid) do
     Enum.find(players, fn {_k, v} -> v == uid end)
     |> elem(0)
   end
+
+  def get_uid_by_player(%{} = players, player) do
+    Enum.find(players, fn {k, _v} -> k == player end)
+    |> elem(1)
+  end
+
 
   defp get_other_player(:red), do: :yellow
   defp get_other_player(:yellow), do: :red

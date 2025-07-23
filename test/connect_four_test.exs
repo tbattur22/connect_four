@@ -197,4 +197,14 @@ defmodule ConnectFourTest do
     {:ok, game_pid} = ConnectFour.game_pid(game_id)
     assert game_pid == pid
   end
+
+  test "get_player_by_uid function" do
+    players = %{ red: 22, yellow: 33}
+    assert ConnectFour.Impl.Game.get_player_by_uid(players, 33) == :yellow
+  end
+
+  test "get_uid_by_player function" do
+    players = %{ red: 22, yellow: 33}
+    assert ConnectFour.Impl.Game.get_uid_by_player(players, :yellow) == 33
+  end
 end
