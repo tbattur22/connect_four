@@ -50,6 +50,7 @@ defmodule ConnectFour do
         Logger.warning("No server process found for game id #{game_id}")
         {:error, "No server process found for game id #{game_id}"}
       [{pid, _}] ->
+        Logger.info("Returning game pid #{inspect(pid)} by game id #{game_id}")
         {:ok, pid}
     end
   end
