@@ -15,7 +15,7 @@ defmodule ConnectFour.MixProject do
   def application do
     [
       mod: { ConnectFour.Runtime.Application, []},
-      extra_applications: [:logger]
+      extra_applications: [:logger, :observer, :wx]
     ]
   end
 
